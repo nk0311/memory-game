@@ -39,7 +39,7 @@ function App() {
   // comparing the 2 clicked tiles
   useEffect(() => {
     if (choiceOne && choiceTwo) {
-
+      
       if (choiceOne.src === choiceTwo.src) {
         setTiles(prevTiles => {
           return prevTiles.map(tile => {

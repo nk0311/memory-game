@@ -3,7 +3,7 @@ import './SingleTile.css'
 export default function SingleTile({ tile, handleChoice, flipped }) {
 
     const handleClick = () => {
-        handleChoice(tile)
+            handleChoice(tile)
     }
 
 
