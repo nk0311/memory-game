@@ -53,7 +53,7 @@ function App() {
        
         resetTries()
       } else {
-        setTimeout(() => resetTries(), 1000)
+        setTimeout(() => resetTries(), 1500)
       }
     }
   }, [choiceOne, choiceTwo])
