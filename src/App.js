@@ -1,18 +1,21 @@
 import './App.css';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
+import SingleTile from './components/SingleTile';
 
 const tileImages = [
-  {"src": "/images/mercedes.png"},
-  {"src": "/images/bmw.jpg"},
-  {"src": "/images/audi.jpg"},
-  {"src": "/images/porsche.jpg"},
-  {"src": "/images/lamborghini.jpg"},
-  {"src": "/images/maserati.png"},
+  {"src": "/images/mercedes.png", matched: false},
+  {"src": "/images/bmw.jpg", matched: false},
+  {"src": "/images/audi.jpg", matched: false},
+  {"src": "/images/porsche.jpg", matched: false},
+  {"src": "/images/lamborghini.jpg", matched: false},
+  {"src": "/images/maserati.png", matched: false},
 ]
 
 function App() {
   const [tiles, setTiles] = useState([])
-  const[turns] = useState(0)
+  const[Tries, setTries] = useState(0)
+  const[choiceOne, setChoiceOne] = useState(null);
+  const[choiceTwo, setChoiceTwo] = useState(null);
 
   // shuffle card functionality
   const shuffleTiles = () => {
@@ -24,11 +27,36 @@ function App() {
       .map((tile) => ({...tile, id: Math.random() }))
 
       setTiles(shuffleTiles)
+      setTries(0)
 
   }
 
-  console.log(tiles, turns)
+  // handling choices
+  const handleChoice =  (tile) => {
+    choiceOne ?  setChoiceTwo(tile) : setChoiceOne(tile)
+  }
 
+  // comparing the 2 clicked tiles
+  useEffect(() => {
+    if (choiceOne && choiceTwo) {
+      if (choiceOne.src === choiceTwo.src) {
+        console.log('they match')
+       
+        resetTries()
+      } else {
+        console.log('they DONT match')
+        
+        resetTries()
+      }
+    }
+  }, [choiceOne, choiceTwo])
+ 
+  //resetting and incrementing the tries
+  const resetTries = () => {
+    setChoiceOne(null)
+    setChoiceTwo(null)
+    setTries(prevTries => prevTries + 1)
+  }
 
   return (
     <div className="App">
@@ -37,12 +65,11 @@ function App() {
 
       <div className="tile-grid">
         {tiles.map(tile => (
-          <div className="tile" key={tile.id}>
-            <div>
-              <img className="front" src={tile.src} alt="tile front"/>
-              <img className="back" src="/images/background.jpg" alt="tile back" />
-            </div>
-          </div>
+          <SingleTile 
+          key={tile.id} 
+          tile={tile} 
+          handleChoice={handleChoice}
+          /> 
         ))}
       </div>
     </div>
