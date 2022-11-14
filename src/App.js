@@ -39,13 +39,20 @@ function App() {
   // comparing the 2 clicked tiles
   useEffect(() => {
     if (choiceOne && choiceTwo) {
+
       if (choiceOne.src === choiceTwo.src) {
-        console.log('they match')
+        setTiles(prevTiles => {
+          return prevTiles.map(tile => {
+            if (tile.src === choiceOne.src) {
+              return {...tile, matched: true}
+            } else {
+              return tile
+            }
+          })
+        })
        
         resetTries()
       } else {
-        console.log('they DONT match')
-        
         resetTries()
       }
     }
@@ -69,6 +76,7 @@ function App() {
           key={tile.id} 
           tile={tile} 
           handleChoice={handleChoice}
+          flipped={tile === choiceOne || tile === choiceTwo || tile.matched}
           /> 
         ))}
       </div>
