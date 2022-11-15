@@ -1,9 +1,12 @@
 import './SingleTile.css'
 
-export default function SingleTile({ tile, handleChoice, flipped }) {
+export default function SingleTile({ tile, handleChoice, flipped, disabled }) {
 
     const handleClick = () => {
-            handleChoice(tile)
+            if(!disabled) {
+                handleChoice(tile)
+            }
+            
     }
 
 
