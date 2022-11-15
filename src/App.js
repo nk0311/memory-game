@@ -13,9 +13,10 @@ const tileImages = [
 
 function App() {
   const [tiles, setTiles] = useState([])
-  const[Tries, setTries] = useState(0)
+  //const[Tries, setTries] = useState(0)
   const[choiceOne, setChoiceOne] = useState(null);
   const[choiceTwo, setChoiceTwo] = useState(null);
+  const[disabled, setDisabled] = useState(false);
 
   // shuffle card functionality
   const shuffleTiles = () => {
@@ -27,7 +28,7 @@ function App() {
       .map((tile) => ({...tile, id: Math.random() }))
 
       setTiles(shuffleTiles)
-      setTries(0)
+      //setTries(0)
 
   }
 
@@ -39,7 +40,7 @@ function App() {
   // comparing the 2 clicked tiles
   useEffect(() => {
     if (choiceOne && choiceTwo) {
-      
+      setDisabled(true)
       if (choiceOne.src === choiceTwo.src) {
         setTiles(prevTiles => {
           return prevTiles.map(tile => {
@@ -62,7 +63,8 @@ function App() {
   const resetTries = () => {
     setChoiceOne(null)
     setChoiceTwo(null)
-    setTries(prevTries => prevTries + 1)
+    // setTries(prevTries => prevTries + 1)
+    setDisabled(false)
   }
 
   return (
@@ -77,6 +79,7 @@ function App() {
           tile={tile} 
           handleChoice={handleChoice}
           flipped={tile === choiceOne || tile === choiceTwo || tile.matched}
+          disabled={disabled}
           /> 
         ))}
       </div>
